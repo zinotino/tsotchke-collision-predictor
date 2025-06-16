@@ -1,0 +1,69 @@
+{
+  "name": "Tsotchke Native C Development",
+  "image": "mcr.microsoft.com/devcontainers/cpp:1-ubuntu-22.04",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.formatOnSave": true,
+        "C_Cpp.default.cppStandard": "c++17",
+        "C_Cpp.default.cStandard": "c11"
+      },
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-toolsai.jupyter",
+        "GitHub.copilot",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ]
+    }
+  },
+
+  "updateContentCommand": "sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build pkg-config libeigen3-dev libopenblas-dev liblapack-dev libomp-dev python3-dev python3-pip git curl htop",
+
+  "postCreateCommand": "pip3 install numpy scipy matplotlib opencv-python pandas jupyter notebook",
+
+  "forwardPorts": [
+    3000,
+    8000,
+    8080,
+    8888
+  ],
+
+  "portsAttributes": {
+    "8888": {
+      "label": "Jupyter Notebook",
+      "onAutoForward": "openPreview"
+    },
+    "8000": {
+      "label": "Data Export Server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/tsotchke-native",
+  
+  "mounts": [
+    "source=tsotchke-data,target=/data,type=volume"
+  ]
+}
